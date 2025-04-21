@@ -1,0 +1,8 @@
+name: "MoFrameCore"
+version: '1.0'
+description: "The core of MoFrame serials plugin"
+api-version: '1.21.5'
+main: "dev.krysztal.moframe.core.Plugin"
+bootstrapper: "dev.krysztal.moframe.core.PluginBootstrap"
+loader: "dev.krysztal.moframe.core.PluginLoader"
+

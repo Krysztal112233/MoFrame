@@ -1,0 +1,7 @@
+name: "MoFrameScripten"
+version: '1.0'
+description: Paper Test Plugin
+api-version: '1.21.5'
+main: "dev.krysztal.moframe.scripten.Plugin"
+bootstrapper: "dev.krysztal.moframe.scripten.PluginBootstrap"
+loader: "dev.krysztal.moframe.scripten.PluginLoader"
