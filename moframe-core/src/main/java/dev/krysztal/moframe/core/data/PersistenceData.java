@@ -15,38 +15,36 @@ import java.util.Optional;
 import java.util.OptionalLong;
 import javax.annotation.Nullable;
 
-/**
- * PersistenceData defined basic.
- */
+/** PersistenceData defined basic. */
 public interface PersistenceData {
 
-	final public static record TimedRecord<T>(T inner, long start, OptionalLong expire) {
-		public boolean isExpired() {
-			return expire.isEmpty() ? false : (System.currentTimeMillis() - this.start() >= expire.getAsLong());
-		}
-	}
+    public static final record TimedRecord<T>(T inner, long start, OptionalLong expire) {
+        public boolean isExpired() {
+            return expire.isEmpty() ? false : (System.currentTimeMillis() - this.start() >= expire.getAsLong());
+        }
+    }
 
-	/**
-	 * @param key
-	 * @param obj
-	 * @return the original data which has been replaced.
-	 */
-	@Nullable <T> TimedRecord<T> put(String key, T obj, @Nullable long expire);
+    /**
+     * @param key
+     * @param obj
+     * @return the original data which has been replaced.
+     */
+    @Nullable <T> TimedRecord<T> put(String key, T obj, @Nullable long expire);
 
-	<T> Optional<TimedRecord<T>> read(String key);
+    <T> Optional<TimedRecord<T>> read(String key);
 
-	<T> Try<TimedRecord<T>> readSafety(String key, Class<T> type);
+    <T> Try<TimedRecord<T>> readSafety(String key, Class<T> type);
 
-	/**
-	 * @param key
-	 * @return if element has been removed.
-	 */
-	boolean remove(String key);
+    /**
+     * @param key
+     * @return if element has been removed.
+     */
+    boolean remove(String key);
 
-	/**
-	 * @return immutable view of keys.
-	 */
-	Collection<String> keys();
+    /**
+     * @return immutable view of keys.
+     */
+    Collection<String> keys();
 
-	boolean exist(String key);
+    boolean exist(String key);
 }

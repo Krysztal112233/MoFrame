@@ -13,40 +13,35 @@ import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.serde.ObjectDeserializer;
 import com.electronwill.nightconfig.core.serde.annotations.SerdeDefault;
 import java.util.function.Supplier;
+import lombok.Getter;
 
-/**
- * MoFrameConfig
- */
+/** MoFrameConfig */
 public class MoFrameConfig {
-	private static MoFrameConfig instance;
+    private static MoFrameConfig instance;
 
-	public static MoFrameConfig getInstance() {
-		return instance;
-	}
+    public static MoFrameConfig getInstance() {
+        return instance;
+    }
 
-	@Deprecated
-	public static void _loading(final String path) {
-		final var builder = CommentedFileConfig.builder(path).build();
-		MoFrameConfig.instance = ObjectDeserializer.standard().deserializeFields(builder, MoFrameConfig::new);
-	}
+    @Deprecated
+    public static void _loading(final String path) {
+        final var builder = CommentedFileConfig.builder(path).build();
+        MoFrameConfig.instance = ObjectDeserializer.standard().deserializeFields(builder, MoFrameConfig::new);
+    }
 
-	public static MoFrameConfig defaultConfig() {
-		return new MoFrameConfig();
-	}
+    public static MoFrameConfig defaultConfig() {
+        return new MoFrameConfig();
+    }
 
-	@SerdeDefault(provider = "defaultCore")
-	private MoFrameCoreConfig core;
+    @SerdeDefault(provider = "defaultCore")
+    @Getter
+    private final MoFrameCoreConfig core;
 
-	transient Supplier<MoFrameCoreConfig> defaultCore = () -> new MoFrameCoreConfig();
+    transient Supplier<MoFrameCoreConfig> defaultCore = () -> new MoFrameCoreConfig();
 
-	transient Supplier<Boolean> defaultExternalMvnRepositoy = () -> false;
+    transient Supplier<Boolean> defaultExternalMvnRepositoy = () -> false;
 
-	private MoFrameConfig() {
-		this.core = this.defaultCore.get();
-	}
-
-	public MoFrameCoreConfig getCore() {
-		return core;
-	}
-
+    private MoFrameConfig() {
+        this.core = this.defaultCore.get();
+    }
 }

@@ -12,7 +12,7 @@ package dev.krysztal.moframe.scripten;
 import io.papermc.paper.plugin.loader.PluginClasspathBuilder;
 
 public class PluginLoader implements io.papermc.paper.plugin.loader.PluginLoader {
-	@Override
-	public void classloader(PluginClasspathBuilder classpathBuilder) {
-	}
+    @Override
+    public void classloader(PluginClasspathBuilder classpathBuilder) {
+    }
 }

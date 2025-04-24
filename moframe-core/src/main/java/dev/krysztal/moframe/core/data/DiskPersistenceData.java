@@ -9,9 +9,6 @@
 
 package dev.krysztal.moframe.core.data;
 
-/**
- * DiskPersistenceData
- */
+/** DiskPersistenceData */
 public class DiskPersistenceData {
-
 }

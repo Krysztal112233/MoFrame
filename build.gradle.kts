@@ -29,6 +29,8 @@ spotless {
         eclipse()
         formatAnnotations()
 
+        leadingTabsToSpaces(4)
+
         licenseHeaderFile("HEADERFILE")
     }
 }

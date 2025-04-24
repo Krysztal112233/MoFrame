@@ -8,10 +8,9 @@ build
 */bin
 
 # Ignore classpath
-*/.classpath
-*/.project
-.classpath
-.project
+**/.classpath
+**/.project
+**/.factorypath
 
 # Ignore jdtls settings
 .settings

@@ -12,7 +12,7 @@ package dev.krysztal.moframe.scripten;
 import io.papermc.paper.plugin.bootstrap.BootstrapContext;
 
 public class PluginBootstrap implements io.papermc.paper.plugin.bootstrap.PluginBootstrap {
-	@Override
-	public void bootstrap(BootstrapContext context) {
-	}
+    @Override
+    public void bootstrap(BootstrapContext context) {
+    }
 }

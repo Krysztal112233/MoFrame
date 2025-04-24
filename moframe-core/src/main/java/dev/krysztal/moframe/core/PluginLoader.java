@@ -18,24 +18,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class PluginLoader implements io.papermc.paper.plugin.loader.PluginLoader {
-	private static final Logger LOGGER = LoggerFactory.getLogger("MoFrameCore/" + PluginLoader.class.getSimpleName());
+    private static final Logger LOGGER = LoggerFactory.getLogger("MoFrameCore/" + PluginLoader.class.getSimpleName());
 
-	@Override
-	public void classloader(final PluginClasspathBuilder classpathBuilder) {
-		var mvn = new MavenLibraryResolver();
+    @Override
+    public void classloader(final PluginClasspathBuilder classpathBuilder) {
+        var mvn = new MavenLibraryResolver();
 
-		this.addJdbc(mvn);
-	}
+        this.addJdbc(mvn);
+    }
 
-	void addJdbc(MavenLibraryResolver mvn) {
-		var db = MoFrameConfig.getInstance().getCore().getDatabase();
-		LOGGER.info("detected database: %s", db.toString());
+    void addJdbc(MavenLibraryResolver mvn) {
+        var db = MoFrameConfig.getInstance().getCore().getDatabase();
+        LOGGER.info("detected database: %s", db.toString());
 
-		var driver = switch (db) {
-			case H2 -> "com.h2database:h2:2.3.232";
-			case Postgres -> "org.postgresql:postgresql:42.7.5";
-		};
+        var driver = switch (db) {
+            case H2 -> "com.h2database:h2:2.3.232";
+            case Postgres -> "org.postgresql:postgresql:42.7.5";
+        };
 
-		mvn.addDependency(new Dependency(new DefaultArtifact(driver), null));
-	}
+        mvn.addDependency(new Dependency(new DefaultArtifact(driver), null));
+    }
 }

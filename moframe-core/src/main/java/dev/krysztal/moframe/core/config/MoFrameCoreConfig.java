@@ -14,99 +14,79 @@ import com.electronwill.nightconfig.core.serde.annotations.SerdeDefault;
 import io.vavr.Function0;
 import io.vavr.control.Try;
 import java.util.function.Supplier;
+import lombok.Getter;
 import one.util.streamex.StreamEx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * MoFrameCoreConfig
- */
+/** MoFrameCoreConfig */
 public class MoFrameCoreConfig {
-	public enum Database {
-		H2, Postgres
-	}
+    public enum Database {
+        H2, Postgres
+    }
 
-	class HikariConfig {
-		@SerdeDefault(provider = "defaultUserName")
-		private final String userName;
-		@SerdeDefault(provider = "defaultUrl")
-		private final String url;
+    class HikariConfig {
+        @SerdeDefault(provider = "defaultUserName")
+        @Getter
+        private final String userName;
 
-		transient Supplier<String> defaultUserName = () -> "username";
-		transient Supplier<String> defaultUrl = () -> "jdbc:postgres://localhost:5432/moframe";
+        @SerdeDefault(provider = "defaultUrl")
+        @Getter
+        private final String url;
 
-		HikariConfig() {
-			this.userName = this.defaultUserName.get();
-			this.url = this.defaultUrl.get();
-		}
+        transient Supplier<String> defaultUserName = () -> "username";
+        transient Supplier<String> defaultUrl = () -> "jdbc:postgres://localhost:5432/moframe";
 
-		public String getUserName() {
-			return userName;
-		}
+        HikariConfig() {
+            this.userName = this.defaultUserName.get();
+            this.url = this.defaultUrl.get();
+        }
+    }
 
-		public String getUrl() {
-			return url;
-		}
+    class TaskConsumerConfig {
+        public enum ConsumeStrategy {
+            Overflow, Limited
+        }
 
-	}
+        @SerdeDefault(provider = "defaultMaxTasks")
+        @Getter
+        private int maxTasks;
 
-	class TaskConsumerConfig {
-		enum ConsumeStrategy {
-			Overflow, Limited
-		}
+        @SerdeDefault(provider = "defaultConsumeStrategy")
+        @SerdeComment("The strategy of task consumer.")
+        @SerdeComment("  Avaliable value: Overflow, Limited.")
+        @Getter
+        private ConsumeStrategy consumeMethod;
 
-		@SerdeDefault(provider = "defaultMaxTasks")
-		private int maxTasks;
-		@SerdeDefault(provider = "defaultConsumeStrategy")
-		@SerdeComment("The strategy of task consumer.")
-		@SerdeComment("  Avaliable value: Overflow, Limited.")
-		private ConsumeStrategy consumeMethod;
+        transient Supplier<ConsumeStrategy> defaultConsumeStrategy = () -> ConsumeStrategy.Limited;
+        transient Supplier<Integer> defaultMaxTasks = () -> 4096;
+    }
 
-		transient Supplier<ConsumeStrategy> defaultConsumeStrategy = () -> ConsumeStrategy.Limited;
-		transient Supplier<Integer> defaultMaxTasks = () -> 4096;
+    private static final Logger LOGGER = LoggerFactory
+            .getLogger("MoFrameCore/" + MoFrameCoreConfig.class.getSimpleName());
 
-		public int getMaxTasks() {
-			return maxTasks;
-		}
+    @SerdeDefault(provider = "defaultHikariConfig")
+    @Getter
+    private HikariConfig hikari;
 
-		public ConsumeStrategy getConsumeMethod() {
-			return consumeMethod;
-		}
-	}
+    transient Supplier<HikariConfig> defaultHikariConfig = () -> new HikariConfig();
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger("MoFrameCore/" + MoFrameCoreConfig.class.getSimpleName());
+    transient Function0<Database> database = Function0.of(() -> {
+        final var schema = Try.of(() -> this.hikari.url.split(":")[1]).getOrElse("h2");
+        final var supported = StreamEx.of(Database.values()).map(Database::toString)
+                .indexOf(it -> it.equalsIgnoreCase(schema)).orElseGet(() -> {
+                    LOGGER.warn("invalid url, using H2 as persitence data backend");
+                    LOGGER.warn("!!!YOUR DATA WILL NOT BE SAVED AFTER RESTART!!!");
+                    return 0;
+                });
+        return Database.values()[(int) supported];
+    });
 
-	public static Logger getLogger() {
-		return LOGGER;
-	}
+    MoFrameCoreConfig() {
+        this.hikari = this.defaultHikariConfig.get();
+    }
 
-	@SerdeDefault(provider = "defaultHikariConfig")
-	private HikariConfig hikari;
-
-	transient Supplier<HikariConfig> defaultHikariConfig = () -> new HikariConfig();
-
-	transient Function0<Database> database = Function0.of(() -> {
-		final var schema = Try.of(() -> this.hikari.url.split(":")[1]).getOrElse("h2");
-		final var supported = StreamEx.of(Database.values()).map(Database::toString)
-				.indexOf(it -> it.equalsIgnoreCase(schema)).orElseGet(() -> {
-					LOGGER.warn("invalid url, using H2 as persitence data backend");
-					LOGGER.warn("!!!YOUR DATA WILL NOT BE SAVED AFTER RESTART!!!");
-					return 0;
-				});
-		return Database.values()[(int) supported];
-	});
-
-	MoFrameCoreConfig() {
-		this.hikari = this.defaultHikariConfig.get();
-	}
-
-	public Database getDatabase() {
-		return this.database.apply();
-	}
-
-	public HikariConfig getHikari() {
-		return hikari;
-	}
-
+    public Database getDatabase() {
+        return this.database.apply();
+    }
 }
