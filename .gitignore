@@ -5,7 +5,7 @@
 build
 
 # Ignore bin directory
-*/bin
+**/bin
 
 # Ignore classpath
 **/.classpath

@@ -6,12 +6,17 @@
 // version 3 of the License, or (at your option) any later version.
 //
 // See the file LICENSE for the full license text.
-package dev.krysztal.moframe.scripten;
+package dev.krysztal.moframe.core.foundation.registry;
 
-import org.bukkit.plugin.java.JavaPlugin;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-public class Plugin extends JavaPlugin {
-    @Override
-    public void onEnable() {
-    }
+@AllArgsConstructor
+public class RegistryObject<T extends Object> {
+
+    @Getter
+    private String identifier;
+
+    @Getter
+    private T obj;
 }

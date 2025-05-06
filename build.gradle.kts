@@ -57,8 +57,22 @@ subprojects {
         implementation("com.zaxxer:HikariCP:6.3.0")
         implementation("io.vavr:vavr:0.10.6")
         implementation("one.util:streamex:0.8.3")
+        implementation("redis.clients:jedis:5.2.0")
 
         compileOnly("org.projectlombok:lombok:1.18.38")
         annotationProcessor("org.projectlombok:lombok:1.18.38")
+
+        compileOnly("org.jetbrains:annotations:26.0.2")
+
+        testImplementation(platform("org.junit:junit-bom:5.12.2"))
+        testImplementation("org.junit.jupiter:junit-jupiter")
+        testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    }
+
+    tasks.test {
+        useJUnitPlatform()
+        testLogging {
+            events("passed", "skipped", "failed")
+        }
     }
 }

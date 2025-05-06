@@ -6,12 +6,11 @@
 // version 3 of the License, or (at your option) any later version.
 //
 // See the file LICENSE for the full license text.
-package dev.krysztal.moframe.scripten;
+package dev.krysztal.moframe.core.foundation.data;
 
-import org.bukkit.plugin.java.JavaPlugin;
-
-public class Plugin extends JavaPlugin {
-    @Override
-    public void onEnable() {
-    }
+public class TimedRecords {
+    public static final Class<Float> TIMED_FLOAT = Float.class;
+    public static final Class<Integer> TIMED_INT = Integer.class;
+    public static final Class<Long> TIMED_LONG = Long.class;
+    public static final Class<String> TIMED_STRING = String.class;
 }
