@@ -11,36 +11,35 @@ package dev.krysztal.moframe.core.attribute;
 import org.bukkit.persistence.PersistentDataType;
 
 public class ExtraAttributes {
-    public static final ExtraAttribute PLAYER_BASE_PHYSIC_DEF = ExtraAttribute.of(
-            "player_base_physic_def", PersistentDataType.LONG);
-    public static final ExtraAttribute PLAYER_BASE_MAGIC_DEF = ExtraAttribute.of(
-            "player_base_magic_def", PersistentDataType.LONG);
+    public static final ExtraAttribute PLAYER_PHYSIC_DEF_RATE = ExtraAttribute.of("player_physic_def_rate",
+            PersistentDataType.DOUBLE, 0.1);
+    public static final ExtraAttribute PLAYER_MAGIC_DEF_RATE = ExtraAttribute.of("player_magic_def_rate",
+            PersistentDataType.DOUBLE, 0.1);
+    public static final ExtraAttribute PLAYER_PHYSIC_MULTIPLIER = ExtraAttribute.of("player_physic_multiplier",
+            PersistentDataType.DOUBLE, 1.0);
+    public static final ExtraAttribute PLAYER_MAGIC_ATK_MULTIPLIER = ExtraAttribute.of("player_magic_multiplier",
+            PersistentDataType.DOUBLE, 1.0);
+    public static final ExtraAttribute PLAYER_HEAL_MULTIPLIER = ExtraAttribute.of("player_heal_multiplier",
+            PersistentDataType.DOUBLE, 1.0);
 
-    public static final ExtraAttribute PLAYER_PHYSIC_MULTIPLIER = ExtraAttribute.of(
-            "player_physic_atk", PersistentDataType.DOUBLE);
-    public static final ExtraAttribute PLAYER_MAGIC_ATK_MULTIPLIER = ExtraAttribute.of(
-            "player_magic_atk", PersistentDataType.DOUBLE);
-    public static final ExtraAttribute PLAYER_CRIT_RATE = ExtraAttribute.of(
-            "player_crit_rate", PersistentDataType.DOUBLE);
-    public static final ExtraAttribute PLAYER_CRIT_DMG = ExtraAttribute.of(
-            "player_crit_dmg", PersistentDataType.DOUBLE);
+    public static final ExtraAttribute PLAYER_CRIT_RATE = ExtraAttribute.of("player_crit_rate",
+            PersistentDataType.DOUBLE, 0.01);
+    public static final ExtraAttribute PLAYER_CRIT_MULTIPLIER = ExtraAttribute.of("player_crit_multiplier",
+            PersistentDataType.DOUBLE, 1.3);
 
-    public static final ExtraAttribute PLAYER_MAX_HEALTH = ExtraAttribute.of(
-            "player_max_health", PersistentDataType.LONG);
-    public static final ExtraAttribute PLAYER_HEALTH_REGEN = ExtraAttribute.of(
-            "player_health_regen", PersistentDataType.LONG);
-    public static final ExtraAttribute PLAYER_DODGE_CHANCE = ExtraAttribute.of(
-            "player_dodge_chance", PersistentDataType.DOUBLE);
+    public static final ExtraAttribute PLAYER_HEALTH_MAX = ExtraAttribute.of("player_health_max",
+            PersistentDataType.LONG);
+    public static final ExtraAttribute PLAYER_HEALTH_REGEN = ExtraAttribute.of("player_health_regen",
+            PersistentDataType.LONG);
+    public static final ExtraAttribute PLAYER_HEALTH = ExtraAttribute.of("player_health", PersistentDataType.LONG);
 
-    public static final ExtraAttribute PLAYER_MAX_MANA = ExtraAttribute.of(
-            "player_mana_max", PersistentDataType.LONG);
-    public static final ExtraAttribute PLAYER_MANA_REGEN = ExtraAttribute.of(
-            "player_mana", PersistentDataType.LONG);
+    public static final ExtraAttribute PLAYER_MANA_MAX = ExtraAttribute.of("player_mana_max", PersistentDataType.LONG);
+    public static final ExtraAttribute PLAYER_MANA_REGEN = ExtraAttribute.of("player_mana_regen",
+            PersistentDataType.LONG);
+    public static final ExtraAttribute PLAYER_MANA = ExtraAttribute.of("player_mana", PersistentDataType.LONG);
 
-    public static final ExtraAttribute PLAYER_LIFE_STEAL = ExtraAttribute.of(
-            "player_life_steal", PersistentDataType.DOUBLE);
-    public static final ExtraAttribute PLAYER_SKILL_HASTE = ExtraAttribute.of(
-            "player_skill_haste", PersistentDataType.DOUBLE, 1.0);
-    public static final ExtraAttribute PLAYER_MOVEMENT_SPEED = ExtraAttribute.of(
-            "player_movement_spd", PersistentDataType.DOUBLE, 1.0);
+    public static final ExtraAttribute PLAYER_COOLDOWN_MULTIPLIER = ExtraAttribute.of("player_cooldown_multiplier",
+            PersistentDataType.DOUBLE, 1.0);
+    public static final ExtraAttribute PLAYER_MOVEMENT_SPEED_MULTIPLIER = ExtraAttribute
+            .of("player_movement_speed_multiplier", PersistentDataType.DOUBLE, 1.0);
 }
