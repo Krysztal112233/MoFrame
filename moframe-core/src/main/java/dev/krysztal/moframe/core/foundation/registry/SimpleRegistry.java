@@ -17,16 +17,16 @@ import org.jetbrains.annotations.Nullable;
 
 public class SimpleRegistry<T> implements Registry<T> {
 
-    private final HashMap<String, RegistryObject<T>> inner = new HashMap<>();
+    private final HashMap<Identifier, RegistryObject<T>> inner = new HashMap<>();
     private final AtomicBoolean freezed = new AtomicBoolean(false);
 
     @Override
-    public Optional<RegistryObject<T>> getObj(final String identifier) {
+    public Optional<RegistryObject<T>> get(final Identifier identifier) {
         return Optional.ofNullable(this.inner.get(identifier));
     }
 
     @Override
-    public @Nullable RegistryObject<T> removeObj(final String identifier) {
+    public @Nullable RegistryObject<T> remove(final Identifier identifier) {
         return this.inner.remove(identifier);
     }
 
@@ -36,7 +36,7 @@ public class SimpleRegistry<T> implements Registry<T> {
     }
 
     @Override
-    public RegistryObject<T> register(final String identifier, final T obj) {
+    public RegistryObject<T> register(final Identifier identifier, final T obj) {
         final var registryObject = new RegistryObject<>(identifier, obj);
         this.inner.put(identifier, registryObject);
         return registryObject;

@@ -15,7 +15,7 @@ import lombok.Getter;
 public class RegistryObject<T extends Object> {
 
     @Getter
-    private String identifier;
+    private Identifier identifier;
 
     @Getter
     private T obj;

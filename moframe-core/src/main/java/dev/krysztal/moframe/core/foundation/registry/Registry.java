@@ -13,11 +13,11 @@ import java.util.Optional;
 import org.jetbrains.annotations.Nullable;
 
 public interface Registry<T extends Object> {
-    Optional<RegistryObject<T>> getObj(String identifier);
+    Optional<RegistryObject<T>> get(Identifier identifier);
 
-    RegistryObject<T> register(String identifier, T obj);
+    RegistryObject<T> register(Identifier identifier, T obj);
 
-    @Nullable RegistryObject<T> removeObj(String identifier);
+    @Nullable RegistryObject<T> remove(Identifier identifier);
 
     Collection<RegistryObject<T>> unmodifiableView();
 }
