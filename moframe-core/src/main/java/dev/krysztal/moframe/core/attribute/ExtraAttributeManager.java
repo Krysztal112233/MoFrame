@@ -8,11 +8,17 @@
 // See the file LICENSE for the full license text.
 package dev.krysztal.moframe.core.attribute;
 
+import dev.krysztal.moframe.core.foundation.pdc.ItemStackPersistentDataHolder;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataHolder;
 
 public class ExtraAttributeManager {
     public static ExtraAttributeManager of(final PersistentDataHolder pdh) {
         return new ExtraAttributeManager(pdh);
+    }
+
+    public static ExtraAttributeManager of(final ItemStack itemStack) {
+        return new ExtraAttributeManager(ItemStackPersistentDataHolder.of(itemStack));
     }
 
     private final PersistentDataHolder pdh;
