@@ -8,16 +8,14 @@
 // See the file LICENSE for the full license text.
 package dev.krysztal.moframe.core.buffstatus;
 
-import org.bukkit.entity.Entity;
-import org.jetbrains.annotations.Nullable;
+import dev.krysztal.moframe.core.buffstatus.types.BuffContextTypeLong;
+import dev.krysztal.moframe.core.buffstatus.types.BuffContextTypeNull;
+import dev.krysztal.moframe.core.buffstatus.types.BuffContextTypeString;
+import io.vavr.control.Either;
+import lombok.Builder;
 
-public interface BuffStatus {
-    void onRemove(Entity entity, BuffContextType ctx);
-
-    void onAttach(Entity entity, BuffContextType ctx);
-
-    void onTicked(Entity entity, BuffContextType ctx);
-
-    @Nullable
-    String[] getDescription();
+@Builder
+public class BuffContext {
+    public Either<BuffContextTypeString, BuffContextTypeNull> source;
+    public BuffContextTypeLong remain;
 }

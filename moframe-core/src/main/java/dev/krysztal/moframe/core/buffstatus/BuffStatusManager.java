@@ -8,16 +8,23 @@
 // See the file LICENSE for the full license text.
 package dev.krysztal.moframe.core.buffstatus;
 
+import java.util.UUID;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.bukkit.entity.Entity;
-import org.jetbrains.annotations.Nullable;
 
-public interface BuffStatus {
-    void onRemove(Entity entity, BuffContextType ctx);
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+public class BuffStatusManager {
+    public static BuffStatusManager of(final Entity entity) {
+        return new BuffStatusManager(entity.getUniqueId());
+    }
 
-    void onAttach(Entity entity, BuffContextType ctx);
+    public static BuffStatusManager of(final UUID uuid) {
+        return new BuffStatusManager(uuid);
+    }
 
-    void onTicked(Entity entity, BuffContextType ctx);
+    @Getter
+    private final UUID uuid;
 
-    @Nullable
-    String[] getDescription();
 }

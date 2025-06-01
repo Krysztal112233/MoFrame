@@ -6,18 +6,16 @@
 // version 3 of the License, or (at your option) any later version.
 //
 // See the file LICENSE for the full license text.
-package dev.krysztal.moframe.core.buffstatus;
+package dev.krysztal.moframe.core.buffstatus.types;
 
-import org.bukkit.entity.Entity;
-import org.jetbrains.annotations.Nullable;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-public interface BuffStatus {
-    void onRemove(Entity entity, BuffContextType ctx);
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+public final class BuffContextTypeLong implements BuffContextType<Long> {
 
-    void onAttach(Entity entity, BuffContextType ctx);
+    @Getter
+    private final Long value;
 
-    void onTicked(Entity entity, BuffContextType ctx);
-
-    @Nullable
-    String[] getDescription();
 }
