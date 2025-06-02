@@ -6,12 +6,15 @@
 // version 3 of the License, or (at your option) any later version.
 //
 // See the file LICENSE for the full license text.
-package dev.krysztal.moframe.core.buffstatus.types;
+package dev.krysztal.moframe.core.buff;
 
 import java.util.Map;
+import java.util.UUID;
 
-public sealed interface BuffContextType<T> permits BuffContextTypeDouble, BuffContextTypeInteger, BuffContextTypeString,
-        BuffContextTypeBoolean, BuffContextTypeNull, BuffContextTypeObject, BuffContextTypeArray, BuffContextTypeLong {
+public sealed interface BuffContextType<T>
+        permits BuffContextTypeDouble, BuffContextTypeInteger, BuffContextTypeString, BuffContextTypeBoolean,
+        BuffContextTypeNull, BuffContextTypeObject, BuffContextTypeArray, BuffContextTypeLong, BuffContextTypeUUID {
+
     T getValue();
 
     public static BuffContextTypeLong of(Long value) {
@@ -36,5 +39,17 @@ public sealed interface BuffContextType<T> permits BuffContextTypeDouble, BuffCo
 
     public static BuffContextTypeObject of(Map<String, BuffContextType<?>> value) {
         return new BuffContextTypeObject(value);
+    }
+
+    public static BuffContextTypeUUID of(UUID value) {
+        return new BuffContextTypeUUID(value);
+    }
+
+    public static BuffContextTypeNull of() {
+        return BuffContextTypeNull.INSTANCE;
+    }
+
+    public static BuffContextTypeNull empty() {
+        return BuffContextTypeNull.INSTANCE;
     }
 }

@@ -6,25 +6,19 @@
 // version 3 of the License, or (at your option) any later version.
 //
 // See the file LICENSE for the full license text.
-package dev.krysztal.moframe.core.buffstatus;
+package dev.krysztal.moframe.core.buff;
 
 import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.bukkit.entity.Entity;
 
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class BuffStatusManager {
-    public static BuffStatusManager of(final Entity entity) {
-        return new BuffStatusManager(entity.getUniqueId());
-    }
-
-    public static BuffStatusManager of(final UUID uuid) {
-        return new BuffStatusManager(uuid);
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+public final class BuffContextTypeUUID implements BuffContextType<UUID> {
+    public static BuffContextTypeUUID of(UUID uuid) {
+        return new BuffContextTypeUUID(uuid);
     }
 
     @Getter
-    private final UUID uuid;
-
+    private final UUID value;
 }

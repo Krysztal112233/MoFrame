@@ -22,6 +22,7 @@ spotless {
 
     java {
         target("**/*.java")
+        targetExclude("**/package-info.java")
 
         importOrder()
         removeUnusedImports()

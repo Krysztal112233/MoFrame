@@ -6,15 +6,18 @@
 // version 3 of the License, or (at your option) any later version.
 //
 // See the file LICENSE for the full license text.
-package dev.krysztal.moframe.core.buffstatus.types;
+package dev.krysztal.moframe.core.buff;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public final class BuffContextTypeBoolean implements BuffContextType<Boolean> {
+public final class BuffContextTypeString implements BuffContextType<String> {
+    public static BuffContextTypeString of(final String value) {
+        return new BuffContextTypeString(value);
+    }
 
     @Getter
-    private final Boolean value;
+    private final String value;
 }

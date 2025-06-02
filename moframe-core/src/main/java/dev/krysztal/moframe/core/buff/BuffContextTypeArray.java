@@ -6,7 +6,7 @@
 // version 3 of the License, or (at your option) any later version.
 //
 // See the file LICENSE for the full license text.
-package dev.krysztal.moframe.core.buffstatus.types;
+package dev.krysztal.moframe.core.buff;
 
 import com.google.common.collect.ImmutableList;
 import java.util.List;
