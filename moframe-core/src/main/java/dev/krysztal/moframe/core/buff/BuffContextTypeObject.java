@@ -24,6 +24,10 @@ public final class BuffContextTypeObject implements BuffContextType<Map<String, 
         return new BuffContextTypeObject(ImmutableMap.of(key, value));
     }
 
+    public static BuffContextTypeObject of(Map<String, BuffContextType<?>> map) {
+        return new BuffContextTypeObject(ImmutableMap.copyOf(map));
+    }
+
     public static BuffContextTypeObject empty() {
         return new BuffContextTypeObject(ImmutableMap.of());
     }
