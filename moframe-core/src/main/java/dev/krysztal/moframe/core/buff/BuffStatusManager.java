@@ -9,22 +9,19 @@
 package dev.krysztal.moframe.core.buff;
 
 import java.util.UUID;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import java.util.concurrent.ConcurrentHashMap;
 import org.bukkit.entity.Entity;
 
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class BuffStatusManager {
-    public static BuffStatusManager of(final Entity entity) {
-        return new BuffStatusManager(entity.getUniqueId());
+public enum BuffStatusManager {
+    INSTANCE;
+
+    public static BuffStatusStorage of(final Entity entity) {
+        return INSTANCE.managed.computeIfAbsent(entity.getUniqueId(), key -> new BuffStatusStorage());
     }
 
-    public static BuffStatusManager of(final UUID uuid) {
-        return new BuffStatusManager(uuid);
+    public static BuffStatusStorage of(final UUID uuid) {
+        return INSTANCE.managed.computeIfAbsent(uuid, key -> new BuffStatusStorage());
     }
 
-    @Getter
-    private final UUID uuid;
-
+    private final ConcurrentHashMap<UUID, BuffStatusStorage> managed = new ConcurrentHashMap<>();
 }

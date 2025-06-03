@@ -9,14 +9,11 @@
 package dev.krysztal.moframe.core.buff;
 
 import org.bukkit.entity.Entity;
-import org.jetbrains.annotations.Nullable;
 
 public interface BuffStatus {
-    void onRemove(Entity entity);
+    void onRemove(Entity entity, BuffContext buffContext);
 
-    void onAttach(Entity entity);
+    void onAttach(Entity entity, BuffContext buffContext);
 
-    void onTicked(Entity entity);
-
-    @Nullable String[] getDescription();
+    void onTicked(Entity entity, BuffContext buffContext);
 }
