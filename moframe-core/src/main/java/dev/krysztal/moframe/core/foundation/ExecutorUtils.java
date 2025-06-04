@@ -41,14 +41,8 @@ public class ExecutorUtils {
         instance.compute.shutdown();
     }
 
-    private final ExecutorService compute;
-
-    private final ExecutorService io;
-
-    private ExecutorUtils() {
-        this.io = Executors.newVirtualThreadPerTaskExecutor();
-        this.compute = Executors.newWorkStealingPool(32);
-    }
+    private final ExecutorService compute = Executors.newWorkStealingPool(32);
+    private final ExecutorService io = Executors.newVirtualThreadPerTaskExecutor();
 
     public void submit(final Supplier<Void> task) {
         this.submit(task, TaskType.Compute);
