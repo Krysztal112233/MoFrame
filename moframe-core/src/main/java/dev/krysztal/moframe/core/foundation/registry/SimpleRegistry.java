@@ -8,16 +8,16 @@
 // See the file LICENSE for the full license text.
 package dev.krysztal.moframe.core.foundation.registry;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.jetbrains.annotations.Nullable;
 
 public class SimpleRegistry<T> implements Registry<T> {
-
-    private final HashMap<Identifier, RegistryObject<T>> inner = new HashMap<>();
+    private final Map<Identifier, RegistryObject<T>> inner = new Object2ObjectLinkedOpenHashMap();
     private final AtomicBoolean freezed = new AtomicBoolean(false);
 
     @Override
