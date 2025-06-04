@@ -20,17 +20,7 @@ import lombok.Getter;
 
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public final class BuffContextTypeObject implements BuffContextType<Map<String, BuffContextType<?>>> {
-    public static BuffContextTypeObject of(final String key, final BuffContextType<?> value) {
-        return new BuffContextTypeObject(ImmutableMap.of(key, value));
-    }
-
-    public static BuffContextTypeObject of(Map<String, BuffContextType<?>> map) {
-        return new BuffContextTypeObject(ImmutableMap.copyOf(map));
-    }
-
-    public static BuffContextTypeObject empty() {
-        return new BuffContextTypeObject(ImmutableMap.of());
-    }
+    protected static final BuffContextTypeObject EMPTY = new BuffContextTypeObject(ImmutableMap.of());
 
     @Getter
     private final Map<String, BuffContextType<?>> value;
@@ -57,20 +47,20 @@ public final class BuffContextTypeObject implements BuffContextType<Map<String, 
         return Optional.ofNullable(cursor);
     }
 
-    public BuffContextTypeObject remove(String path) {
-        String[] seg = path.split("\\.");
+    public BuffContextTypeObject remove(final String path) {
+        final String[] seg = path.split("\\.");
         if (seg.length == 0) {
             return this;
         }
 
-        List<BuffContextTypeObject> parents = new ArrayList<>();
-        List<String> parentKey = new ArrayList<>();
+        final List<BuffContextTypeObject> parents = new ArrayList<>();
+        final List<String> parentKey = new ArrayList<>();
 
         BuffContextTypeObject cursor = this;
         for (int i = 0; i < seg.length - 1; i++) {
-            String k = seg[i];
-            BuffContextType<?> next = cursor.value.get(k);
-            if (!(next instanceof BuffContextTypeObject child)) {
+            final String k = seg[i];
+            final BuffContextType<?> next = cursor.value.get(k);
+            if (!(next instanceof final BuffContextTypeObject child)) {
                 return this;
             }
             parents.add(cursor);
@@ -78,19 +68,19 @@ public final class BuffContextTypeObject implements BuffContextType<Map<String, 
             cursor = child;
         }
 
-        String lastKey = seg[seg.length - 1];
+        final String lastKey = seg[seg.length - 1];
         if (!cursor.value.containsKey(lastKey)) {
             return this;
         }
-        Map<String, BuffContextType<?>> work = new HashMap<>(cursor.value);
+        final Map<String, BuffContextType<?>> work = new HashMap<>(cursor.value);
         work.remove(lastKey);
         BuffContextTypeObject updated = new BuffContextTypeObject(ImmutableMap.copyOf(work));
 
         for (int i = parents.size() - 1; i >= 0; i--) {
-            BuffContextTypeObject parent = parents.get(i);
-            String key = parentKey.get(i);
+            final BuffContextTypeObject parent = parents.get(i);
+            final String key = parentKey.get(i);
 
-            Map<String, BuffContextType<?>> tmp = new HashMap<>(parent.value);
+            final Map<String, BuffContextType<?>> tmp = new HashMap<>(parent.value);
             tmp.put(key, updated);
             updated = new BuffContextTypeObject(ImmutableMap.copyOf(tmp));
         }

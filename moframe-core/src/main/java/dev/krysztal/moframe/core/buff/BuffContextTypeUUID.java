@@ -15,9 +15,6 @@ import lombok.Getter;
 
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public final class BuffContextTypeUUID implements BuffContextType<UUID> {
-    public static BuffContextTypeUUID of(UUID uuid) {
-        return new BuffContextTypeUUID(uuid);
-    }
 
     @Getter
     private final UUID value;

@@ -10,8 +10,9 @@ package dev.krysztal.moframe.core.buff;
 
 import lombok.Getter;
 
-public enum BuffContextTypeNull implements BuffContextType<Void> {
-    INSTANCE;
+public final class BuffContextTypeNull implements BuffContextType<Void> {
+
+    protected static final BuffContextTypeNull INSTANCE = new BuffContextTypeNull();
 
     @Getter
     private final Void value = null;

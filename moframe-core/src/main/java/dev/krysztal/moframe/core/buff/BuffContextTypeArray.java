@@ -16,17 +16,8 @@ import lombok.Getter;
 
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public final class BuffContextTypeArray implements BuffContextType<List<BuffContextType<?>>> {
-    public static BuffContextTypeArray of(List<BuffContextType<?>> list) {
-        return new BuffContextTypeArray(ImmutableList.copyOf(list));
-    }
 
-    public static BuffContextTypeArray of(BuffContextType<?>... ele) {
-        return new BuffContextTypeArray(ImmutableList.copyOf(ele));
-    }
-
-    public static BuffContextTypeArray empty() {
-        return new BuffContextTypeArray(ImmutableList.of());
-    }
+    protected static final BuffContextTypeArray EMPTY = new BuffContextTypeArray(ImmutableList.of());
 
     @Getter
     private final List<BuffContextType<?>> value;

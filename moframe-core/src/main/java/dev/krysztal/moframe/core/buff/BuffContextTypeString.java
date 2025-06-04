@@ -14,9 +14,6 @@ import lombok.Getter;
 
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public final class BuffContextTypeString implements BuffContextType<String> {
-    public static BuffContextTypeString of(final String value) {
-        return new BuffContextTypeString(value);
-    }
 
     @Getter
     private final String value;
