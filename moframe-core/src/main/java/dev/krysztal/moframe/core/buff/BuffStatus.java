@@ -8,12 +8,12 @@
 // See the file LICENSE for the full license text.
 package dev.krysztal.moframe.core.buff;
 
-import org.bukkit.entity.Entity;
+import java.util.UUID;
 
 public interface BuffStatus {
-    void onRemove(Entity entity, BuffContext buffContext);
+    void onRemove(UUID uuid, BuffContext buffContext);
 
-    void onAttach(Entity entity, BuffContext buffContext);
+    void onAttach(UUID uuid, BuffContext buffContext);
 
-    void onTicked(Entity entity, BuffContext buffContext);
+    void onTicked(UUID uuid, BuffContext buffContext);
 }
