@@ -23,19 +23,19 @@ public class BuffContextTypeObjectTest {
 
     @BeforeEach
     void setUp() {
-        simpleObject = BuffContextTypeObject
+        simpleObject = BuffContextType
                 .of(ImmutableMap.of("name", BuffContextType.of("Krysztal"), "age", BuffContextType.of(25)));
 
-        nestedObject = BuffContextTypeObject.of(Map.of("id", BuffContextType.of("user-123"), "profile",
-                BuffContextTypeObject.of(Map.of("name", BuffContextType.of("Alex"), "preferences",
-                        BuffContextTypeObject.of(Map.of("theme", BuffContextType.of("dark"), "notifications",
+        nestedObject = BuffContextType.of(Map.of("id", BuffContextType.of("user-123"), "profile",
+                BuffContextType.of(Map.of("name", BuffContextType.of("Alex"), "preferences",
+                        BuffContextType.of(Map.of("theme", BuffContextType.of("dark"), "notifications",
                                 BuffContextType.of(true))))),
-                "roles", BuffContextTypeArray.of(BuffContextType.of("admin"), BuffContextType.of("user"))));
+                "roles", BuffContextType.of(BuffContextType.of("admin"), BuffContextType.of("user"))));
     }
 
     @Test
     void shouldCreateEmptyObject() {
-        BuffContextTypeObject empty = BuffContextTypeObject.empty();
+        BuffContextTypeObject empty = BuffContextType.emptyObject();
         assertTrue(empty.getValue().isEmpty());
     }
 
@@ -155,8 +155,8 @@ public class BuffContextTypeObjectTest {
 
     @Test
     void shouldHandleComplexRemoveScenario() {
-        BuffContextTypeObject complex = BuffContextTypeObject.of(Map.of("a", BuffContextTypeObject
-                .of(Map.of("b", BuffContextTypeObject.of(Map.of("c", BuffContextType.of("value")))))));
+        BuffContextTypeObject complex = BuffContextType.of(Map.of("a",
+                BuffContextType.of(Map.of("b", BuffContextType.of(Map.of("c", BuffContextType.of("value")))))));
 
         BuffContextTypeObject updated = complex.remove("a.b.c");
 
@@ -201,7 +201,7 @@ public class BuffContextTypeObjectTest {
     @Test
     void shouldHandleUUIDType() {
         UUID uuid = UUID.randomUUID();
-        BuffContextTypeObject object = BuffContextTypeObject.of(Map.of("id", BuffContextType.of(uuid)));
+        BuffContextTypeObject object = BuffContextType.of(Map.of("id", BuffContextType.of(uuid)));
 
         Optional<BuffContextType<?>> id = object.get("id");
         assertTrue(id.isPresent());
@@ -211,7 +211,7 @@ public class BuffContextTypeObjectTest {
 
     @Test
     void shouldHandleNullValue() {
-        BuffContextTypeObject object = BuffContextTypeObject.of(Map.of("nullValue", BuffContextType.empty()));
+        BuffContextTypeObject object = BuffContextType.of(Map.of("nullValue", BuffContextType.empty()));
 
         Optional<BuffContextType<?>> nullValue = object.get("nullValue");
         assertTrue(nullValue.isPresent());
@@ -220,9 +220,9 @@ public class BuffContextTypeObjectTest {
 
     @Test
     void shouldHandleMixedTypes() {
-        BuffContextTypeObject mixed = BuffContextTypeObject.of(Map.of("string", BuffContextType.of("text"), "int",
+        BuffContextTypeObject mixed = BuffContextType.of(Map.of("string", BuffContextType.of("text"), "int",
                 BuffContextType.of(42), "double", BuffContextType.of(3.14), "boolean", BuffContextType.of(true),
-                "object", BuffContextTypeObject.empty(), "array", BuffContextTypeArray.empty(), "null",
+                "object", BuffContextType.emptyObject(), "array", BuffContextType.emptyArray(), "null",
                 BuffContextType.empty()));
 
         assertEquals(7, mixed.getValue().size());
