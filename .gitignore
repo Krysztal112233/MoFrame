@@ -12,6 +12,9 @@ build
 **/.project
 **/.factorypath
 
+# Run paper plugin
+**/run
+
 # Ignore jdtls settings
 .settings
 
