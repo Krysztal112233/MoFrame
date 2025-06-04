@@ -8,33 +8,44 @@
 // See the file LICENSE for the full license text.
 package dev.krysztal.moframe.core;
 
-import dev.krysztal.moframe.core.config.MoFrameConfig;
 import io.papermc.paper.plugin.loader.PluginClasspathBuilder;
 import io.papermc.paper.plugin.loader.library.impl.MavenLibraryResolver;
+import java.util.List;
+import net.minecraft.util.Tuple;
 import org.eclipse.aether.artifact.DefaultArtifact;
 import org.eclipse.aether.graph.Dependency;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.eclipse.aether.repository.RemoteRepository;
 
 public class PluginLoader implements io.papermc.paper.plugin.loader.PluginLoader {
-    private static final Logger LOGGER = LoggerFactory.getLogger("MoFrameCore/" + PluginLoader.class.getSimpleName());
 
     @Override
     public void classloader(final PluginClasspathBuilder classpathBuilder) {
         var mvn = new MavenLibraryResolver();
 
+        this.addRepositories(mvn);
+        this.addBasic(mvn);
         this.addJdbc(mvn);
+
+        classpathBuilder.addLibrary(mvn);
+    }
+
+    void addRepositories(MavenLibraryResolver mvn) {
+        List.of(new Tuple<>("ali", "https://maven.aliyun.com/repository/public"),
+                new Tuple<>("tencent", "http://mirrors.cloud.tencent.com/nexus/repository/maven-public/")).stream()
+                .forEach(repo -> mvn
+                        .addRepository(new RemoteRepository.Builder(repo.getA(), "default", repo.getB()).build()));
     }
 
     void addJdbc(MavenLibraryResolver mvn) {
-        var db = MoFrameConfig.getInstance().getCore().getDatabase();
-        LOGGER.info("detected database: %s", db.toString());
-
-        var driver = switch (db) {
-            case H2 -> "com.h2database:h2:2.3.232";
-            case Postgres -> "org.postgresql:postgresql:42.7.5";
-        };
-
-        mvn.addDependency(new Dependency(new DefaultArtifact(driver), null));
+        List.of("org.postgresql:postgresql:42.7.5", "com.h2database:h2:2.3.232").stream()
+                .forEach(pkg -> mvn.addDependency(new Dependency(new DefaultArtifact(pkg), null)));
     }
+
+    void addBasic(MavenLibraryResolver mvn) {
+        List.of("com.electronwill.night-config:toml:3.8.1", "com.google.inject:guice:7.0.0",
+                "com.zaxxer:HikariCP:6.3.0", "io.vavr:vavr:0.10.6", "one.util:streamex:0.8.3",
+                "redis.clients:jedis:5.2.0", "com.h2database:h2:2.3.232").stream()
+                .forEach(pkg -> mvn.addDependency(new Dependency(new DefaultArtifact(pkg), null)));
+    }
+
 }
