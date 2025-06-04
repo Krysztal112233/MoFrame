@@ -10,17 +10,20 @@ package dev.krysztal.moframe.core.buff;
 
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import lombok.Getter;
 import org.bukkit.entity.Entity;
 
-public enum BuffStatusManager {
-    INSTANCE;
+public class BuffStatusManager {
+    @Getter
+    private static final BuffStatusManager INSTANCE = new BuffStatusManager();
 
     public static BuffStatusStorage of(final Entity entity) {
-        return INSTANCE.managed.computeIfAbsent(entity.getUniqueId(), key -> new BuffStatusStorage());
+        return INSTANCE.managed.computeIfAbsent(entity.getUniqueId(),
+                key -> new BuffStatusStorage(entity.getUniqueId()));
     }
 
     public static BuffStatusStorage of(final UUID uuid) {
-        return INSTANCE.managed.computeIfAbsent(uuid, key -> new BuffStatusStorage());
+        return INSTANCE.managed.computeIfAbsent(uuid, key -> new BuffStatusStorage(uuid));
     }
 
     private final ConcurrentHashMap<UUID, BuffStatusStorage> managed = new ConcurrentHashMap<>();
