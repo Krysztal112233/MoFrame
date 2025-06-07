@@ -10,7 +10,7 @@ package dev.krysztal.moframe.core.buff;
 
 import dev.krysztal.moframe.core.PluginRegistry;
 import dev.krysztal.moframe.core.foundation.registry.Identifier;
-import java.util.Optional;
+import io.vavr.control.Option;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -34,9 +34,9 @@ public class BuffStatusStorage {
         this.belong = uuid;
     }
 
-    public Optional<StoredBuffContext> get(final Identifier key) {
-        final var time = Optional.ofNullable(this.time.get(key)).orElse(0L);
-        final var ctx = Optional.ofNullable(this.ctx.get(key));
+    public Option<StoredBuffContext> get(final Identifier key) {
+        final var time = Option.of(this.time.get(key)).getOrElse(0L);
+        final var ctx = Option.of(this.ctx.get(key));
 
         return ctx.map(it -> new StoredBuffContext(time, it));
     }
@@ -51,14 +51,14 @@ public class BuffStatusStorage {
     }
 
     public void purge(final Identifier key) {
-        this.drop(key).ifPresent(s -> {
-            PluginRegistry.BUFF_STATUS.get(key).ifPresent(buff -> buff.getObj().onRemove(this.belong, s.buffContext));
+        this.drop(key).peek(s -> {
+            PluginRegistry.BUFF_STATUS.get(key).peek(buff -> buff.getObj().onRemove(this.belong, s.buffContext));
         });
     }
 
-    public Optional<StoredBuffContext> drop(final Identifier key) {
-        final var time = Optional.ofNullable(this.time.remove(key)).orElse(0L);
-        final var ctx = Optional.ofNullable(this.ctx.remove(key));
+    public Option<StoredBuffContext> drop(final Identifier key) {
+        final var time = Option.of(this.time.remove(key)).getOrElse(0L);
+        final var ctx = Option.of(this.ctx.remove(key));
 
         return ctx.map(it -> new StoredBuffContext(time, it));
     }

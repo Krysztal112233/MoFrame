@@ -9,11 +9,11 @@
 package dev.krysztal.moframe.core.buff;
 
 import com.google.common.collect.ImmutableMap;
+import io.vavr.control.Option;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,26 +25,26 @@ public final class BuffContextTypeObject implements BuffContextType<Map<String, 
     @Getter
     private final Map<String, BuffContextType<?>> value;
 
-    public Optional<BuffContextType<?>> get(final String key) {
-        return Optional.ofNullable(this.value.get(key));
+    public Option<BuffContextType<?>> get(final String key) {
+        return Option.of(this.value.get(key));
     }
 
-    public Optional<BuffContextType<?>> visit(final String path) {
+    public Option<BuffContextType<?>> visit(final String path) {
         final String[] segments = path.split("\\.");
 
         // TailRescure optimization
         BuffContextType<?> cursor = this;
         for (final String key : segments) {
             if (!(cursor instanceof final BuffContextTypeObject obj)) {
-                return Optional.empty();
+                return Option.none();
             }
             cursor = obj.value.get(key);
             if (cursor == null) {
-                return Optional.empty();
+                return Option.none();
             }
         }
 
-        return Optional.ofNullable(cursor);
+        return Option.of(cursor);
     }
 
     public BuffContextTypeObject remove(final String path) {

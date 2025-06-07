@@ -10,8 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.google.common.collect.ImmutableMap;
 import dev.krysztal.moframe.core.buff.*;
+import io.vavr.control.Option;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,48 +49,48 @@ public class BuffContextTypeObjectTest {
 
     @Test
     void shouldGetExistingValue() {
-        Optional<BuffContextType<?>> name = simpleObject.get("name");
-        assertTrue(name.isPresent());
+        Option<BuffContextType<?>> name = simpleObject.get("name");
+        assertTrue(name.isDefined());
         assertEquals("Krysztal", ((BuffContextTypeString) name.get()).getValue());
 
-        Optional<BuffContextType<?>> age = simpleObject.get("age");
-        assertTrue(age.isPresent());
+        Option<BuffContextType<?>> age = simpleObject.get("age");
+        assertTrue(age.isDefined());
         assertEquals(25, ((BuffContextTypeInteger) age.get()).getValue());
     }
 
     @Test
     void shouldReturnEmptyForMissingKey() {
-        Optional<BuffContextType<?>> missing = simpleObject.get("missing");
+        Option<BuffContextType<?>> missing = simpleObject.get("missing");
         assertTrue(missing.isEmpty());
     }
 
     @Test
     void shouldVisitTopLevelProperty() {
-        Optional<BuffContextType<?>> id = nestedObject.visit("id");
-        assertTrue(id.isPresent());
+        Option<BuffContextType<?>> id = nestedObject.visit("id");
+        assertTrue(id.isDefined());
         assertEquals("user-123", ((BuffContextTypeString) id.get()).getValue());
     }
 
     @Test
     void shouldVisitNestedProperty() {
-        Optional<BuffContextType<?>> theme = nestedObject.visit("profile.preferences.theme");
-        assertTrue(theme.isPresent());
+        Option<BuffContextType<?>> theme = nestedObject.visit("profile.preferences.theme");
+        assertTrue(theme.isDefined());
         assertEquals("dark", ((BuffContextTypeString) theme.get()).getValue());
     }
 
     @Test
     void shouldReturnEmptyForInvalidPath() {
 
-        Optional<BuffContextType<?>> invalid1 = nestedObject.visit("profile.invalid.theme");
+        Option<BuffContextType<?>> invalid1 = nestedObject.visit("profile.invalid.theme");
         assertTrue(invalid1.isEmpty());
 
-        Optional<BuffContextType<?>> invalid2 = nestedObject.visit("profile.preferences.theme.extra");
+        Option<BuffContextType<?>> invalid2 = nestedObject.visit("profile.preferences.theme.extra");
         assertTrue(invalid2.isEmpty());
 
-        Optional<BuffContextType<?>> invalid3 = nestedObject.visit("roles.2");
+        Option<BuffContextType<?>> invalid3 = nestedObject.visit("roles.2");
         assertTrue(invalid3.isEmpty());
 
-        Optional<BuffContextType<?>> emptyPath = nestedObject.visit("");
+        Option<BuffContextType<?>> emptyPath = nestedObject.visit("");
         assertTrue(emptyPath.isEmpty());
     }
 
@@ -110,14 +110,14 @@ public class BuffContextTypeObjectTest {
     void shouldRemoveNestedProperty() {
         BuffContextTypeObject updated = nestedObject.remove("profile.preferences.theme");
 
-        Optional<BuffContextType<?>> preferences = updated.visit("profile.preferences");
-        assertTrue(preferences.isPresent());
+        Option<BuffContextType<?>> preferences = updated.visit("profile.preferences");
+        assertTrue(preferences.isDefined());
 
         BuffContextTypeObject prefsObj = (BuffContextTypeObject) preferences.get();
         assertFalse(prefsObj.getValue().containsKey("theme"));
         assertTrue(prefsObj.getValue().containsKey("notifications"));
 
-        assertTrue(nestedObject.visit("profile.preferences.theme").isPresent());
+        assertTrue(nestedObject.visit("profile.preferences.theme").isDefined());
     }
 
     @Test
@@ -139,7 +139,7 @@ public class BuffContextTypeObjectTest {
         BuffContextTypeObject updated = nestedObject.remove("profile.missing.property");
 
         assertEquals(nestedObject.getValue().size(), updated.getValue().size());
-        assertTrue(updated.visit("profile.preferences.theme").isPresent());
+        assertTrue(updated.visit("profile.preferences.theme").isDefined());
     }
 
     @Test
@@ -147,10 +147,10 @@ public class BuffContextTypeObjectTest {
 
         BuffContextTypeObject updated = nestedObject.remove("profile.preferences");
 
-        Optional<BuffContextType<?>> preferences = updated.visit("profile.preferences");
+        Option<BuffContextType<?>> preferences = updated.visit("profile.preferences");
         assertTrue(preferences.isEmpty());
 
-        assertTrue(nestedObject.visit("profile.preferences").isPresent());
+        assertTrue(nestedObject.visit("profile.preferences").isDefined());
     }
 
     @Test
@@ -160,12 +160,12 @@ public class BuffContextTypeObjectTest {
 
         BuffContextTypeObject updated = complex.remove("a.b.c");
 
-        Optional<BuffContextType<?>> b = updated.visit("a.b");
-        assertTrue(b.isPresent());
+        Option<BuffContextType<?>> b = updated.visit("a.b");
+        assertTrue(b.isDefined());
         BuffContextTypeObject bObj = (BuffContextTypeObject) b.get();
         assertTrue(bObj.getValue().isEmpty());
 
-        assertTrue(complex.visit("a.b.c").isPresent());
+        assertTrue(complex.visit("a.b.c").isDefined());
     }
 
     @Test
@@ -203,8 +203,8 @@ public class BuffContextTypeObjectTest {
         UUID uuid = UUID.randomUUID();
         BuffContextTypeObject object = BuffContextType.of(Map.of("id", BuffContextType.of(uuid)));
 
-        Optional<BuffContextType<?>> id = object.get("id");
-        assertTrue(id.isPresent());
+        Option<BuffContextType<?>> id = object.get("id");
+        assertTrue(id.isDefined());
         assertTrue(id.get() instanceof BuffContextTypeUUID);
         assertEquals(uuid, ((BuffContextTypeUUID) id.get()).getValue());
     }
@@ -213,8 +213,8 @@ public class BuffContextTypeObjectTest {
     void shouldHandleNullValue() {
         BuffContextTypeObject object = BuffContextType.of(Map.of("nullValue", BuffContextType.empty()));
 
-        Optional<BuffContextType<?>> nullValue = object.get("nullValue");
-        assertTrue(nullValue.isPresent());
+        Option<BuffContextType<?>> nullValue = object.get("nullValue");
+        assertTrue(nullValue.isDefined());
         assertTrue(nullValue.get() instanceof BuffContextTypeNull);
     }
 

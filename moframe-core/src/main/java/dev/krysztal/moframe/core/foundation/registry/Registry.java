@@ -8,12 +8,12 @@
 // See the file LICENSE for the full license text.
 package dev.krysztal.moframe.core.foundation.registry;
 
+import io.vavr.control.Option;
 import java.util.Collection;
-import java.util.Optional;
 import org.jetbrains.annotations.Nullable;
 
 public interface Registry<T extends Object> {
-    Optional<RegistryObject<T>> get(Identifier identifier);
+    Option<RegistryObject<T>> get(Identifier identifier);
 
     RegistryObject<T> register(Identifier identifier, T obj);
 

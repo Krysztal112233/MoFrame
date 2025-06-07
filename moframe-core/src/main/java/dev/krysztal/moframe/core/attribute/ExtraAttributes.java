@@ -11,15 +11,15 @@ package dev.krysztal.moframe.core.attribute;
 import org.bukkit.persistence.PersistentDataType;
 
 public class ExtraAttributes {
-    public static final ExtraAttribute PLAYER_PHYSIC_DEF_RATE = ExtraAttribute.of("player_physic_def_rate",
+    public static final ExtraAttribute ENTITY_PHYSIC_DEF_RATE = ExtraAttribute.of("entity_physic_def_rate",
             PersistentDataType.DOUBLE, 0.1);
-    public static final ExtraAttribute PLAYER_MAGIC_DEF_RATE = ExtraAttribute.of("player_magic_def_rate",
+    public static final ExtraAttribute ENTITY_MAGIC_DEF_RATE = ExtraAttribute.of("entity_magic_def_rate",
             PersistentDataType.DOUBLE, 0.1);
-    public static final ExtraAttribute PLAYER_PHYSIC_MULTIPLIER = ExtraAttribute.of("player_physic_multiplier",
+    public static final ExtraAttribute ENTITY_PHYSIC_MULTIPLIER = ExtraAttribute.of("entity_physic_multiplier",
             PersistentDataType.DOUBLE, 1.0);
-    public static final ExtraAttribute PLAYER_MAGIC_ATK_MULTIPLIER = ExtraAttribute.of("player_magic_multiplier",
+    public static final ExtraAttribute ENTITY_MAGIC_ATK_MULTIPLIER = ExtraAttribute.of("entity_magic_multiplier",
             PersistentDataType.DOUBLE, 1.0);
-    public static final ExtraAttribute PLAYER_HEAL_MULTIPLIER = ExtraAttribute.of("player_heal_multiplier",
+    public static final ExtraAttribute ENTITY_HEAL_MULTIPLIER = ExtraAttribute.of("entity_heal_multiplier",
             PersistentDataType.DOUBLE, 1.0);
 
     public static final ExtraAttribute PLAYER_CRIT_RATE = ExtraAttribute.of("player_crit_rate",

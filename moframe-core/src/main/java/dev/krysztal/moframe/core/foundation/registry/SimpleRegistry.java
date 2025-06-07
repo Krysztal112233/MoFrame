@@ -8,11 +8,11 @@
 // See the file LICENSE for the full license text.
 package dev.krysztal.moframe.core.foundation.registry;
 
+import io.vavr.control.Option;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,8 +21,8 @@ public class SimpleRegistry<T> implements Registry<T> {
     private final AtomicBoolean freezed = new AtomicBoolean(false);
 
     @Override
-    public Optional<RegistryObject<T>> get(final Identifier identifier) {
-        return Optional.ofNullable(this.inner.get(identifier));
+    public Option<RegistryObject<T>> get(final Identifier identifier) {
+        return Option.of(this.inner.get(identifier));
     }
 
     @Override

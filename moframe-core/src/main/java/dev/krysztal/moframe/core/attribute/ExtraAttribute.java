@@ -9,7 +9,7 @@
 package dev.krysztal.moframe.core.attribute;
 
 import dev.krysztal.moframe.core.Plugin;
-import java.util.Optional;
+import io.vavr.control.Option;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,22 +21,22 @@ public class ExtraAttribute<P, C> {
 
     public static <P, C> ExtraAttribute<P, C> of(final NamespacedKey namespacedKey,
             final PersistentDataType<P, C> type) {
-        return new ExtraAttribute<>(namespacedKey, type, Optional.empty());
+        return new ExtraAttribute<>(namespacedKey, type, Option.none());
     }
 
     public static <P, C> ExtraAttribute<P, C> of(final NamespacedKey namespacedKey, final PersistentDataType<P, C> type,
             final C defaultValue) {
-        return new ExtraAttribute<>(namespacedKey, type, Optional.of(defaultValue));
+        return new ExtraAttribute<>(namespacedKey, type, Option.of(defaultValue));
     }
 
     public static <P, C> ExtraAttribute<P, C> of(final String key, final PersistentDataType<P, C> type,
             final C defaultValue) {
         return new ExtraAttribute<P, C>(new NamespacedKey(Plugin.getPluginInstance(), key), type,
-                Optional.of(defaultValue));
+                Option.of(defaultValue));
     }
 
     public static <P, C> ExtraAttribute<P, C> of(final String key, final PersistentDataType<P, C> type) {
-        return new ExtraAttribute<P, C>(new NamespacedKey(Plugin.getPluginInstance(), key), type, Optional.empty());
+        return new ExtraAttribute<P, C>(new NamespacedKey(Plugin.getPluginInstance(), key), type, Option.none());
     }
 
     @Getter
@@ -46,5 +46,5 @@ public class ExtraAttribute<P, C> {
     private final PersistentDataType<P, C> pdt;
 
     @Getter
-    private final Optional<C> defaultValue;
+    private final Option<C> defaultValue;
 }

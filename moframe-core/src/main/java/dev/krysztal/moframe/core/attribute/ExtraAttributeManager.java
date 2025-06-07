@@ -9,6 +9,7 @@
 package dev.krysztal.moframe.core.attribute;
 
 import dev.krysztal.moframe.core.foundation.pdc.ItemStackPersistentDataHolder;
+import io.vavr.control.Option;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataHolder;
 
@@ -27,11 +28,19 @@ public class ExtraAttributeManager {
         this.pdh = pdh;
     }
 
-    public <P, C> C read(final ExtraAttribute<P, C> attribute) {
-        return this.pdh.getPersistentDataContainer().get(attribute.getNamespacedKey(), attribute.getPdt());
+    public <P, C> Option<C> read(final ExtraAttribute<P, C> attribute) {
+        return Option.of(this.pdh.getPersistentDataContainer().get(attribute.getNamespacedKey(), attribute.getPdt()));
     }
 
     public <P, C> void write(final ExtraAttribute<P, C> attribute, final C data) {
         this.pdh.getPersistentDataContainer().set(attribute.getNamespacedKey(), attribute.getPdt(), data);
+    }
+
+    public <P, C> void initial(final ExtraAttribute<P, C> attribute) {
+        attribute.getDefaultValue().peek(data -> {
+            if (this.read(attribute).isEmpty()) {
+                this.write(attribute, data);
+            }
+        });
     }
 }
