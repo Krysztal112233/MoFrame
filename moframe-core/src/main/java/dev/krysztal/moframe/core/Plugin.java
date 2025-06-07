@@ -16,9 +16,11 @@ import dev.krysztal.moframe.core.config.MoFrameConfig;
 import dev.krysztal.moframe.core.foundation.ExecutorUtils;
 import dev.krysztal.moframe.core.foundation.da.DatabaseAccessor;
 import dev.krysztal.moframe.core.foundation.da.RedisAccessor;
+import dev.krysztal.moframe.core.listener.InitializeDefaultExtraAttribute;
 import io.vavr.control.Try;
 import java.nio.file.Files;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +35,11 @@ public class Plugin extends JavaPlugin {
     public void onLoad() {
         pluginInstance = this;
         this.saveDefaultConfig();
+    }
+
+    @Override
+    public void onEnable() {
+        this.initListeners();
     }
 
     @Override
@@ -69,5 +76,9 @@ public class Plugin extends JavaPlugin {
         ExecutorUtils._load();
         DatabaseAccessor._load();
         RedisAccessor._load();
+    }
+
+    void initListeners() {
+        Bukkit.getPluginManager().registerEvents(new InitializeDefaultExtraAttribute(), this);
     }
 }
