@@ -69,6 +69,7 @@ subprojects {
         testImplementation("org.junit.jupiter:junit-jupiter")
         testRuntimeOnly("org.junit.platform:junit-platform-launcher")
         testImplementation("org.assertj:assertj-core:3.25.3")
+        testImplementation("org.mockbukkit.mockbukkit:mockbukkit-v1.21:4.0.0")
     }
 
     tasks.test {
